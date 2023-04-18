@@ -113,7 +113,7 @@
         // TODO: complete this
         debugger; // Testing
         try {
-            const res = await axios.put(`${ADDRESS}/update/id=${currentPerson.id}`, person);
+            const res = await axios.put(`${ADDRESS}/update/${currentPerson.id}?age=${currentPerson.oldNess}`, person);
         } catch(error) {
             console.error(error);
         }
@@ -128,7 +128,8 @@
         }
         modal.style.display = "block";
         // Testing
-        console.log(`Current person -> ID: ${currentPerson.id}, Name: ${currentPerson.fullName}`);
+        console.log(`Current person -> ID: ${currentPerson.id}, 
+                            Name: ${currentPerson.fullName}, Age: ${currentPerson.age}`);
         // const editPerson = getPerson(currentPerson.id); 
         // console.log(modal); //Testing
         const nameText = document.querySelector("#mFullName");
@@ -164,18 +165,17 @@
 
     document.getElementById("modalPForm").addEventListener("submit", async function(e) {
         e.preventDefault();
-
-        // debugger;
-        const {mFName, mAge, mJob} = this;
+        
+        // TODO if this works, remove age input options from form
+        const {mFName, mJob} = this;
 
         const updatedPerson = 
         {
-            fullName: mFName.value,
-            oldNess: mAge.value,
-            occupation: mJob.value,
+            name: mFName.value,
+            // oldNess: mAge.value,
+            job: mJob.value,
         }
 
-        debugger; // Testing
         updatePerson(updatedPerson);
         this.style.display = "none";
         getPeople();
