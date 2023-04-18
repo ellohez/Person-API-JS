@@ -104,8 +104,18 @@
             const res = await axios.get(`${ADDRESS}/get/${id}`);
             //console.log(res); // Testing
            return res.data[0];
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function updatePerson(person) {
+        // TODO: complete this
+        debugger; // Testing
+        try {
+            const res = await axios.put(`${ADDRESS}/update/id=${currentPerson.id}`, person);
+        } catch(error) {
+            console.error(error);
         }
     }
 
@@ -128,16 +138,7 @@
         ageText.value = currentPerson.oldNess;
         const jobText = document.querySelector("#mJob");
         jobText.value = currentPerson.occupation;
-    }
 
-    async function updatePerson(person) {
-        // TODO: complete this
-        try {
-            const res = await axios.patch(`${ADDRESS}/update/${person.id}`);
-            getPeople();
-        } catch(error) {
-            console.error(error);
-        }
     }
 
     document.getElementById("pplForm").addEventListener("submit", async function(e) {
@@ -160,6 +161,27 @@
             console.error(error);
         }
     });
+
+    document.getElementById("modalPForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        // debugger;
+        const {mFName, mAge, mJob} = this;
+
+        const updatedPerson = 
+        {
+            fullName: mFName.value,
+            oldNess: mAge.value,
+            occupation: mJob.value,
+        }
+
+        debugger; // Testing
+        updatePerson(updatedPerson);
+        this.style.display = "none";
+        getPeople();
+    });
+
     //await postPerson();
     getPeople();
+
 }) ();
