@@ -55,6 +55,8 @@
         const updateBtn = document.createElement("button");
         updateBtn.innerText = 'Update';
         updateBtn.classList.add("btn", "btn-primary");
+        updateBtn.setAttribute("data-bs-toggle", "modal");
+        updateBtn.setAttribute("data-bs-target", "#myModal");
         updateBtn.addEventListener('click', () => {
             currentPerson = person;    
             modalUpdate();
@@ -71,22 +73,6 @@
         newPerson.appendChild(personCard);
 
         OUTPUT.appendChild(newPerson);
-    }
-
-    async function postPerson() {
-        const newPerson = {
-            fullName: "Barry",
-            oldNess: 22,
-            occupation: "Tester",
-            notNiNumber: "12345"
-        }
-    
-        try {
-            const res = await axios.post(`${ADDRESS}/create`, newPerson);
-            // getPeople();
-        } catch(error) {
-            console.error(error);
-        }
     }
 
     async function deletePerson(id) {
@@ -121,25 +107,17 @@
 
     function modalUpdate() {
         const modal = document.querySelector("#myModal");
-        // Get the <span> element that closes the modal
-        const span = document.querySelector(".close"); 
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        modal.style.display = "block";
         // Testing
         console.log(`Current person -> ID: ${currentPerson.id}, 
                             Name: ${currentPerson.fullName}, Age: ${currentPerson.age}`);
-        // const editPerson = getPerson(currentPerson.id); 
-        // console.log(modal); //Testing
+
         const nameText = document.querySelector("#mFullName");
-        // TODO - create input and add it to the modal form?
+        // TODO - shorten these!
         nameText.value = currentPerson.fullName;
         const ageText = document.querySelector("#mAge");
         ageText.value = currentPerson.oldNess;
         const jobText = document.querySelector("#mJob");
         jobText.value = currentPerson.occupation;
-
     }
 
     document.getElementById("pplForm").addEventListener("submit", async function(e) {
@@ -163,23 +141,29 @@
         }
     });
 
-    document.getElementById("modalPForm").addEventListener("submit", async function(e) {
+    document.getElementById("myModal").addEventListener("submit", async function(e) {
         e.preventDefault();
 
-        const {mFName, mAge, mJob} = this;
+        debugger;
+        // TODO: Shorten these
+        const mFName = document.getElementById("mFullName");
+        const mAge = document.getElementById("mAge");
+        const mJob = document.getElementById("mJob");
+        // const {mFName, mAge, mJob} = this;
         const updatedPerson = {
             name: mFName.value,
             age: mAge.value,
             job: mJob.value,
         }
 
-        updatePerson(updatedPerson);
         debugger;
-        this.style.display = "none";
+        updatePerson(updatedPerson);
+        // TODO: close the modal?
+        document.getElementById("myModal").hide();
+        // Refresh info
         getPeople();
     });
 
-    //await postPerson();
     getPeople();
 
 }) ();
